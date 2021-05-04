@@ -14,5 +14,5 @@ app.get("/", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("Express server listning on port " + port);
+  console.log("Express server is listening on port " + port);
 });
