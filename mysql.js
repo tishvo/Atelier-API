@@ -1,10 +1,13 @@
 const mysql = require('mysql');
+var Promise = require('bluebird');
 
   var connection = mysql.createConnection({
     user: 'student',
     password: 'student',
     database: 'sdc'
   });
+
+  global.db = Promise.promisifyAll(connection);
 
   connection.connect(err => {
     if (err) {
