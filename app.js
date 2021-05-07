@@ -4,10 +4,12 @@ var Promise = require('bluebird');
 const port = 5000;
 const connection = require('./mysql.js');
 const { resolve } = require('bluebird');
+const moment = require('moment');
 
 const app = express();
 
 app.use(bp.urlencoded({ extended: false }));
+app.use(express.json());
 app.use(bp.json());
 app.use(require("morgan")("dev"));
 
@@ -58,7 +60,22 @@ app.get("/qa/questions/:question_id/answers", (req, res) => {
 
 //adds a question
 app.post("/qa/questions", (req, res) => {
- //stuff
+ 
+ var body = req.body.body;
+ var name = req.body.name;
+ var email = req.body.email;
+ var prod_id = req.body.product_id;
+ var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+
+var query = `INSERT INTO questions (product_id, body, date_written, asker_name, asker_email, reported, helpful) VALUES ('${prod_id}', '${body}', '${date}', '${name}', '${email}', '0', '0');`;
+db.queryAsync(query)
+.then(() => {
+  res.send('question created')
+})
+.catch(err => {
+  res.send('database entry failed')
+  console.log(err)
+})
 });
 
 
