@@ -11,6 +11,7 @@ app.use(bp.urlencoded({ extended: false }));
 app.use(bp.json());
 app.use(require("morgan")("dev"));
 
+//gets all the questions for a given product_id
 app.get("/qa/questions", (req, res) => {
   var product_id = req.query['product_id'];
   var query = `SELECT * FROM questions WHERE product_id=${product_id} AND reported=0 LIMIT 5;`;
@@ -33,6 +34,7 @@ app.get("/qa/questions", (req, res) => {
   })
 });
 
+//gets all the answers for a given question_id
 app.get("/qa/questions/:question_id/answers", (req, res) => {
   var question_id = req.params.question_id;
   var query = `SELECT * FROM answers WHERE question_id=${question_id} AND reported=0 LIMIT 5;`;
@@ -52,6 +54,46 @@ app.get("/qa/questions/:question_id/answers", (req, res) => {
     })
   })
 });
+
+
+//adds a question
+app.post("/qa/questions", (req, res) => {
+ //stuff
+});
+
+
+//adds an answer
+app.post("/qa/questions/:question_id/answers", (req, res) => {
+  //stuff
+ });
+
+
+ //marks a question as helpful
+ app.put("/qa/questions/:question_id/helpful", (req, res) => {
+  //stuff
+ });
+
+
+ //reports a question
+ app.put("/qa/questions/:question_id/report", (req, res) => {
+  //stuff
+ });
+
+
+ //marks an answer as helpful
+ app.put("/qa/answers/:answer_id/helpful", (req, res) => {
+  //stuff
+ });
+
+
+ //reports an answer
+ app.put("/qa/answers/:answer_id/report", (req, res) => {
+  //stuff
+ });
+
+
+
+
 
 app.listen(port, () => {
   console.log("Express server is listening on port " + port);
