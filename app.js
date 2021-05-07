@@ -26,13 +26,13 @@ app.get("/qa/questions", (req, res) => {
       var a_query = `SELECT * FROM answers WHERE question_id=${q_id} AND reported=0;`;
       currentQ.answers = await db.queryAsync(a_query);
     }
-    res.send({
+    res.status(200).send({
       product_id: product_id,
       results: questions
     });
   })
   .catch(err => {
-    res.send('error retrieving data');
+    res.status(500).send('error retrieving data');
   })
 });
 
@@ -48,12 +48,15 @@ app.get("/qa/questions/:question_id/answers", (req, res) => {
       var photo_query = `SELECT * FROM answer_photos WHERE answer_id=${a_id};`;
       currentA.photos = await db.queryAsync(photo_query);
     }
-    res.send({
+    res.status(200).send({
       question: question_id,
       page: 0,
-      count: 5,
+      count: answers.length,
       results: answers
     })
+  })
+  .catch(err => {
+    res.status(500).send('error retrieving data');
   })
 });
 
@@ -70,11 +73,11 @@ app.post("/qa/questions", (req, res) => {
 var query = `INSERT INTO questions (product_id, body, date_written, asker_name, asker_email, reported, helpful) VALUES ('${prod_id}', '${body}', '${date}', '${name}', '${email}', '0', '0');`;
 db.queryAsync(query)
 .then(() => {
-  res.send('question created')
+  res.status(201).send();
 })
 .catch(err => {
-  res.send('database entry failed')
-  console.log(err)
+  res.status(500).send();
+  console.log(err);
 })
 });
 
@@ -90,36 +93,77 @@ app.post("/qa/questions/:question_id/answers", (req, res) => {
   var query = `INSERT INTO answers (question_id, body, date_written, answerer_name, answerer_email, reported, helpful) VALUES ('${q_id}', '${body}', '${date}', '${name}', '${email}', '0', '0');`;
   db.queryAsync(query)
   .then(() => {
-  res.send('answer created')
+  res.status(201).send();
 })
   .catch(err => {
-  res.send('database entry failed')
-  console.log(err)
+  res.status(500).send();
+  console.log(err);
 })
  });
 
 
  //marks a question as helpful
  app.put("/qa/questions/:question_id/helpful", (req, res) => {
-  //stuff
+  var q_id = req.params.question_id;
+
+  var query = `UPDATE questions SET helpful = helpful + 1 WHERE id = ${q_id};`;
+  db.queryAsync(query)
+  .then(() => {
+  res.sendStatus(204);
+})
+  .catch(err => {
+  res.sendStatus(500);
+  console.log(err);
+})
  });
 
 
  //reports a question
  app.put("/qa/questions/:question_id/report", (req, res) => {
-  //stuff
+  var q_id = req.params.question_id;
+
+  var query = `UPDATE questions SET reported = 1 WHERE id = ${q_id};`;
+  db.queryAsync(query)
+  .then(() => {
+  res.sendStatus(204);
+})
+  .catch(err => {
+  res.sendStatus(500);
+  console.log(err);
+})
+
  });
 
 
  //marks an answer as helpful
  app.put("/qa/answers/:answer_id/helpful", (req, res) => {
-  //stuff
+  var a_id = req.params.answer_id;
+
+  var query = `UPDATE answers SET helpful = helpful + 1 WHERE id = ${a_id};`;
+  db.queryAsync(query)
+  .then(() => {
+  res.sendStatus(204);
+})
+  .catch(err => {
+  res.sendStatus(500);
+  console.log(err);
+})
  });
 
 
  //reports an answer
  app.put("/qa/answers/:answer_id/report", (req, res) => {
-  //stuff
+  var a_id = req.params.answer_id;
+
+  var query = `UPDATE answers SET reported = 1 WHERE id = ${a_id};`;
+  db.queryAsync(query)
+  .then(() => {
+  res.sendStatus(204);
+})
+  .catch(err => {
+  res.sendStatus(500);
+  console.log(err);
+})
  });
 
 
