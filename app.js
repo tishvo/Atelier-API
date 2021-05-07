@@ -11,7 +11,6 @@ app.use(bp.urlencoded({ extended: false }));
 app.use(bp.json());
 app.use(require("morgan")("dev"));
 
-
 app.get("/qa/questions", (req, res) => {
   var product_id = req.query['product_id'];
   var query = `SELECT * FROM questions WHERE product_id=${product_id} AND reported=0;`
@@ -24,7 +23,10 @@ app.get("/qa/questions", (req, res) => {
       var a_query = `SELECT * FROM answers WHERE question_id=${q_id} AND reported=0;`
       currentQ.answers = await db.queryAsync(a_query);
     }
-    res.send(questions);
+    res.send({
+      product_id: product_id,
+      results: questions
+    });
   })
   .catch(err => {
     res.send('error retrieving data');
@@ -34,8 +36,5 @@ app.get("/qa/questions", (req, res) => {
 app.listen(port, () => {
   console.log("Express server is listening on port " + port);
 });
-
-
-
 
 
