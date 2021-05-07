@@ -81,7 +81,21 @@ db.queryAsync(query)
 
 //adds an answer
 app.post("/qa/questions/:question_id/answers", (req, res) => {
-  //stuff
+  var q_id = req.params.question_id;
+  var body = req.body.body;
+  var date = new Date().toISOString().slice(0, 19).replace('T', ' ');
+  var name = req.body.name;
+  var email = req.body.email;
+
+  var query = `INSERT INTO answers (question_id, body, date_written, answerer_name, answerer_email, reported, helpful) VALUES ('${q_id}', '${body}', '${date}', '${name}', '${email}', '0', '0');`;
+  db.queryAsync(query)
+  .then(() => {
+  res.send('answer created')
+})
+  .catch(err => {
+  res.send('database entry failed')
+  console.log(err)
+})
  });
 
 
