@@ -1,7 +1,7 @@
 const express = require('express');
 const bp = require("body-parser");
 var Promise = require('bluebird');
-const port = 5000;
+const port = process.env.PORT || 5000;
 const connection = require('./mysql.js');
 const { resolve } = require('bluebird');
 const moment = require('moment');
