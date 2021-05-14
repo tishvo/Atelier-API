@@ -2,10 +2,9 @@ const mysql = require('mysql');
 var Promise = require('bluebird');
 
   var connection = mysql.createConnection({
-    host: 'Tishs-Macbook-Pro.local',
-    port: '3306',
-    user: 'student',
-    password: 'student',
+    host: 'localhost',
+    user: 'root',
+    password: 'password',
     database: 'sdc'
   });
 
