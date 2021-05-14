@@ -1,5 +1,5 @@
 const express = require('express');
-const bp = require("body-parser");
+const bp = require('body-parser');
 var Promise = require('bluebird');
 const port = process.env.PORT || 5000;
 const connection = require('./mysql.js');
@@ -165,9 +165,6 @@ app.post("/qa/questions/:question_id/answers", (req, res) => {
   console.log(err);
 })
  });
-
-
-
 
 
 app.listen(port, () => {
