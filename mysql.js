@@ -20,15 +20,3 @@ var Promise = require('bluebird');
 
   exports.connection = connection;
 
-//Below are command lines to add csv data into mySQL. Keeping here just in case I need to start over 
-
-  //LOAD DATA LOCAL INFILE '/Users/tishvo/work/sdc/questions.csv'
-  //INTO TABLE questions
-  //FIELDS TERMINATED BY ','
-  //OPTIONALLY ENCLOSED BY '"'
-  //LINES TERMINATED BY '\n'
-  //(id, product_id, body, @date_written, asker_name, asker_email, reported, helpful)
-  //SET date_written = FROM_UNIXTIME(@date_written * 0.001);
-
-  //(id, question_id, body, @date_written, answerer_name, answerer_email, reported, helpful)
-  //(id, answer_id, url)
